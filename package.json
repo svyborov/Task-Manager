@@ -5,7 +5,7 @@
   "main": "bundle.js",
   "scripts": {
     "dev": "webpack-dev-server --mode development --open",
-    "start": "node bundle.js",
+    "start": "node index.js",
     "heroku-postbuild": "webpack -p"
   },
   "repository": {
