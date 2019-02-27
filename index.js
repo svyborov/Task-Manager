@@ -11,9 +11,12 @@ const rollbar = new Rollbar({
 
 const app = new Koa();
 
+app.use(Koa.static(__dirname));
+
 // Errors handling using Rollbar as first middleware to catch exception
 app.use(async (ctx) => {
   try {
+    console.log('ПОЛУЧИЛОСЬ!!1');
     ctx.body = 'Hello World';
   } catch (err) {
     rollbar.error(err, ctx.request);

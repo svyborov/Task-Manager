@@ -1,12 +1,13 @@
-import path from 'path';
-
 module.exports = {
   mode: 'development',
   devtool: 'source-map',
-  entry: './index.js',
+  entry: [
+    './index.js',
+  ],
   output: {
-    filename: 'index.js',
-    path: path.join(__dirname, 'out'),
+    path: __dirname,
+    publicPath: '/',
+    filename: 'bundle.js',
   },
   node: {
     fs: 'empty',
