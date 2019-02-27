@@ -5,7 +5,7 @@
   "main": "babel.config.js",
   "scripts": {
     "dev": "webpack-dev-server --mode development --open",
-    "start": "node index.js",
+    "start": "node bundle.js",
     "heroku-postbuild": "webpack -p"
   },
   "repository": {
