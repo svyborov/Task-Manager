@@ -12,4 +12,4 @@ test:
 testWatch:
 	npm run test --watchAll
 start:
-	npm run nodemon -- --exec babel-node ./index.js
+	npm run start

@@ -1,6 +1,15 @@
-import Koa from 'koa';
+/* import Koa from 'koa';
 import Rollbar from 'rollbar';
-import path from 'path';
+import logger from 'koa-morgan';
+*/
+const Koa = require('koa');
+const Rollbar = require('rollbar');
+const logger = require('koa-morgan');
+const Router = require('koa-router');
+const fs = require('fs').promises;
+
+
+console.log('Перед стартом');
 
 const port = process.env.PORT || 8080;
 
@@ -11,17 +20,24 @@ const rollbar = new Rollbar({
 });
 
 const app = new Koa();
+const router = new Router();
 
-app.use(Koa.static(__dirname));
-
-// Errors handling using Rollbar as first middleware to catch exception
-app.use(async (ctx) => {
-  try {
-    console.log('ПОЛУЧИЛОСЬ!!1');
-    ctx.sendFile(path.resolve(__dirname, 'index.html'));
-  } catch (err) {
-    rollbar.error(err, ctx.request);
-  }
+router.get('/', async (ctx) => {
+  const startPage = await fs.readFile(`${__dirname}/index.html`);
+  ctx.body = startPage.toString();
 });
+
+app
+  .use(logger('tiny'))
+  .use(router.routes())
+  .use(async (ctx, next) => {
+    try {
+      await next();
+    } catch (err) {
+      rollbar.error(err, ctx.request);
+    }
+  });
+
+console.log(port);
 
 app.listen(port);
