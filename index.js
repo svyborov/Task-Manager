@@ -1,5 +1,6 @@
 import Koa from 'koa';
 import Rollbar from 'rollbar';
+import path from 'path';
 
 const port = process.env.PORT || 8080;
 
@@ -17,7 +18,7 @@ app.use(Koa.static(__dirname));
 app.use(async (ctx) => {
   try {
     console.log('ПОЛУЧИЛОСЬ!!1');
-    ctx.body = 'Hello World';
+    ctx.sendFile(path.resolve(__dirname, 'index.html'));
   } catch (err) {
     rollbar.error(err, ctx.request);
   }
