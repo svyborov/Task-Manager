@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "webpack-dev-server --mode development --open",
     "nodemon": "nodemon",
-    "start": "webpack-dev-server --mode production",
-
+    "start": "webpack-dev-server --mode production"
   },
   "repository": {
     "type": "git",
