@@ -5,7 +5,6 @@
   "main": "bundle.js",
   "scripts": {
     "dev": "webpack-dev-server --mode development --open",
-    "heroku-postbuild": "webpack -p",
     "clean": "rm -rf build && mkdir build",
     "build-babel": "babel -d ./build ./src -s",
     "build": "npm run clean && npm run build-babel",
