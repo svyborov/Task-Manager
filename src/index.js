@@ -13,6 +13,7 @@ require('dotenv').config();
 
 
 console.log('Перед стартом');
+console.log('ASD');
 
 const port = process.env.PORT || 8080;
 
