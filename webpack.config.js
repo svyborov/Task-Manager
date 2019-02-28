@@ -1,13 +1,13 @@
+const path = require('path');
+
 module.exports = {
   mode: 'development',
   devtool: 'source-map',
-  entry: [
-    './index.js',
-  ],
+  entry: './src/index.js',
   output: {
-    path: __dirname,
-    publicPath: '/',
-    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'main.js',
+    publicPath: 'dist/',
   },
   node: {
     fs: 'empty',
@@ -19,14 +19,14 @@ module.exports = {
     rules: [
       {
         test: /\.m?js$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: '/node_modules/',
         use: {
           loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-            plugins: ['@babel/plugin-transform-runtime'],
-          },
         },
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
