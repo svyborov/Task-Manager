@@ -1,12 +1,16 @@
-import Koa from 'koa';
+/* import Koa from 'koa';
 import Rollbar from 'rollbar';
 import logger from 'koa-morgan';
 import Router from 'koa-router';
 import fs from 'fs';
-
+*/
+const Koa = require('koa');
+const Rollbar = require('rollbar');
+const logger = require('koa-morgan');
+const Router = require('koa-router');
+const fs = require('fs').promises;
 require('dotenv').config();
 
-const fsPromises = fs.promises;
 
 console.log('Перед стартом');
 
@@ -22,7 +26,7 @@ const app = new Koa();
 const router = new Router();
 
 router.get('/', async (ctx) => {
-  const startPage = await fsPromises.readFile('../index.html');
+  const startPage = await fs.readFile('../index.html');
   ctx.body = startPage.toString();
 });
 
