@@ -4,6 +4,8 @@ import logger from 'koa-morgan';
 import Router from 'koa-router';
 import fs from 'fs';
 
+require('dotenv').config();
+
 const fsPromises = fs.promises;
 
 console.log('Перед стартом');
