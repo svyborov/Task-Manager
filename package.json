@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "webpack-dev-server --mode development --open",
     "nodemon": "nodemon",
-    "build": "webpack-dev-server --mode production --open",
-    "postinstall": "npm run build"
+    "start": "webpack-dev-server --mode production",
 
   },
   "repository": {
