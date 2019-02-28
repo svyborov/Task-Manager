@@ -27,7 +27,7 @@ const app = new Koa();
 const router = new Router();
 
 router.get('/', async (ctx) => {
-  const startPage = await fs.readFile(`${__dirname}index.html`);
+  const startPage = await fs.readFile('/app/index.html');
   ctx.body = startPage.toString();
 });
 
