@@ -1,13 +1,10 @@
-/* import Koa from 'koa';
+import Koa from 'koa';
 import Rollbar from 'rollbar';
 import logger from 'koa-morgan';
-*/
-const Koa = require('koa');
-const Rollbar = require('rollbar');
-const logger = require('koa-morgan');
-const Router = require('koa-router');
-const fs = require('fs').promises;
+import Router from 'koa-router';
+import fs from 'fs';
 
+const fsPromises = fs.promises;
 
 console.log('Перед стартом');
 
@@ -23,7 +20,7 @@ const app = new Koa();
 const router = new Router();
 
 router.get('/', async (ctx) => {
-  const startPage = await fs.readFile(`${__dirname}/index.html`);
+  const startPage = await fsPromises.readFile(`${__dirname}/index.html`);
   ctx.body = startPage.toString();
 });
 
