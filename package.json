@@ -5,7 +5,7 @@
   "main": "bundle.js",
   "scripts": {
     "dev": "webpack-dev-server --mode development --open",
-    "start": "babel-node index.js",
+    "start": "nodemon index.js --exec babel-node index.js",
     "heroku-postbuild": "webpack -p"
   },
   "repository": {
