@@ -4,7 +4,6 @@ import Koa from 'koa';
 import Rollbar from 'rollbar';
 import logger from 'koa-morgan';
 import server from 'koa-static';
-
 import dotenv from 'dotenv';
 
 /*
