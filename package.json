@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --mode development --open",
+    "server" : "NODE_ENV=production babel index.js --out-file server.js --source-maps inline",
     "build": "npx webpack -p --env production",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "start": "nodemon dist/server.js"
   },
   "repository": {
     "type": "git",
