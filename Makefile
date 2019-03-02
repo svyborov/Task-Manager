@@ -13,3 +13,5 @@ testWatch:
 	npm run test --watchAll
 start:
 	npm run start
+dev:
+	npm run dev
