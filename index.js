@@ -11,6 +11,9 @@ import dotenv from 'dotenv';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './src/style.css';
 */
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './src/style.css';
+
 const Koa = require('koa');
 const Rollbar = require('rollbar');
 const logger = require('koa-morgan');
@@ -19,7 +22,7 @@ const server = require('koa-static');
 // const fs = require('fs').promises;
 // require('./style.css');
 require('dotenv').config();
-// require('bootstrap/dist/css/bootstrap.min.css');
+// require('./src/style.css');
 // require('./src/style.css');
 
 console.log('Перед стартом');
