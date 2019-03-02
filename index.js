@@ -18,7 +18,11 @@ dotenv.config();
 
 const port = process.env.PORT || 8080;
 
-const rollbar = new Rollbar(process.env.ROLLBAR);
+const rollbar = new Rollbar({
+  accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+});
 
 const app = new Koa();
 
