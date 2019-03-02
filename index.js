@@ -11,8 +11,6 @@ import dotenv from 'dotenv';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './src/style.css';
 */
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './src/style.css';
 
 const Koa = require('koa');
 const Rollbar = require('rollbar');
