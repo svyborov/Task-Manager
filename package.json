@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "webpack-dev-server --mode development --open",
     "build": "npx webpack -p --env production",
-    "postinstall": "npm run build",
-    "start": "nodemon --exec babel-node index.js "
+    "postinstall": "npm run build"
   },
   "repository": {
     "type": "git",
