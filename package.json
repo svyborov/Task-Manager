@@ -58,6 +58,6 @@
     "koa-static": "^5.0.0",
     "nodemon": "^1.18.10",
     "popper.js": "^1.14.7",
-    "rollbar": "^2.5.2",
+    "rollbar": "^2.5.2"
   }
 }
