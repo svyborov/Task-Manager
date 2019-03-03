@@ -1,0 +1,18 @@
+doctype html
+html(lang='en')
+  head
+    script(src='../dist/main.js', type='text/javascript')
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    title Best task manager ever!
+  body
+    .cover-container.d-flex.w-100.h-100.p-3.mx-auto.flex-column
+      header.masthead.mb-auto
+        .inner
+          h3.masthead-brand Task manager
+          nav.nav.nav-masthead.justify-content-center
+            a.nav-link.active(href='/') Home
+            a.nav-link.active(href='/login') Log in
+            a.nav-link.active(href='/signup') Sign up
+      block content
+      footer.mastfoot.mt-auto
