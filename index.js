@@ -6,45 +6,43 @@ import Pug from 'koa-pug';
 import dotenv from 'dotenv';
 import Router from 'koa-router';
 
-console.log('Перед стартом');
-dotenv.config();
+export default () => {
+  console.log('Перед стартом');
+  dotenv.config();
 
-const port = process.env.PORT || 8080;
-
-const rollbar = new Rollbar({
-  accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
-  captureUncaught: true,
-  captureUnhandledRejections: true,
-});
-
-const app = new Koa();
-const router = new Router();
-
-app
-  .use(server('.'))
-  .use(logger('tiny'))
-  .use(async (ctx, next) => {
-    try {
-      await next();
-    } catch (err) {
-      rollbar.error(err, ctx.request);
-    }
+  const rollbar = new Rollbar({
+    accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+    captureUncaught: true,
+    captureUnhandledRejections: true,
   });
 
-const pug = new Pug({
-  viewPath: './views',
-  basedir: './views',
-});
+  const app = new Koa();
+  const router = new Router();
 
-pug.use(app);
+  app
+    .use(server('.'))
+    .use(logger('tiny'))
+    .use(async (ctx, next) => {
+      try {
+        await next();
+      } catch (err) {
+        rollbar.error(err, ctx.request);
+      }
+    });
 
-router.get('/', (ctx) => {
-  ctx.render('index');
-});
+  const pug = new Pug({
+    viewPath: './views',
+    basedir: './views',
+  });
 
-app.use(router.allowedMethods());
-app.use(router.routes());
+  pug.use(app);
 
-console.log(port);
+  router.get('/', (ctx) => {
+    ctx.render('index');
+  });
 
-app.listen(port);
+  app.use(router.allowedMethods());
+  app.use(router.routes());
+
+  return app;
+};

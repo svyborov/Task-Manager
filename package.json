@@ -8,7 +8,8 @@
     "server": "NODE_ENV=production babel index.js --out-file server.js --source-maps inline",
     "build": "npx webpack -p --env production",
     "postinstall": "npm run build",
-    "start": "nodemon server.js"
+    "start": "gulp server",
+    "nodemon": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -55,6 +56,7 @@
     "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-flowtype": "^3.4.2",
     "eslint-plugin-jest": "^22.3.0",
+    "gulp": "^4.0.0",
     "jquery": "^3.3.1",
     "koa": "^2.7.0",
     "koa-morgan": "^1.0.1",
