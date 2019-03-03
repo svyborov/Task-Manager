@@ -43,6 +43,7 @@ pug.use(app);
 router.get('/', ctx => {
   ctx.render('index');
 });
+
 app.use(router.allowedMethods());
 app.use(router.routes());
 console.log(port);
