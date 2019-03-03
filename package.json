@@ -5,11 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --mode development --open",
-    "server": "NODE_ENV=production babel index.js --out-file server.js --source-maps inline",
     "build": "npx webpack -p --env production",
     "postinstall": "npm run build",
     "start": "gulp server",
-    "nodemon": "nodemon server.js"
   },
   "repository": {
     "type": "git",
