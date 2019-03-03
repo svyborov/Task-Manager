@@ -7,7 +7,7 @@
     "dev": "webpack-dev-server --mode development --open",
     "build": "npx webpack -p --env production",
     "postinstall": "npm run build",
-    "start": "gulp server",
+    "start": "gulp server"
   },
   "repository": {
     "type": "git",
