@@ -1,5 +1,3 @@
-// import '@babel/polyfill';
-
 import Koa from 'koa';
 import Rollbar from 'rollbar';
 import logger from 'koa-morgan';
