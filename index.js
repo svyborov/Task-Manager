@@ -4,15 +4,10 @@ import Koa from 'koa';
 import Rollbar from 'rollbar';
 import logger from 'koa-morgan';
 import server from 'koa-static';
+import Pug from 'koa-pug';
 import dotenv from 'dotenv';
+import Router from 'koa-router';
 
-/*
-const Koa = require('koa');
-const Rollbar = require('rollbar');
-const logger = require('koa-morgan');
-const server = require('koa-static');
-require('dotenv').config();
-*/
 console.log('Перед стартом');
 dotenv.config();
 
@@ -25,6 +20,7 @@ const rollbar = new Rollbar({
 });
 
 const app = new Koa();
+const router = new Router();
 
 app
   .use(server('.'))
@@ -36,6 +32,20 @@ app
       rollbar.error(err, ctx.request);
     }
   });
+
+const pug = new Pug({
+  viewPath: './views',
+  basedir: './views',
+});
+
+pug.use(app);
+
+router.get('/', (ctx) => {
+  ctx.render('index');
+});
+
+app.use(router.allowedMethods());
+app.use(router.routes());
 
 console.log(port);
 
