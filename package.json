@@ -58,6 +58,7 @@
     "gulp": "^4.0.0",
     "jquery": "^3.3.1",
     "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
     "koa-morgan": "^1.0.1",
     "koa-pug": "^3.0.0-2",
     "koa-router": "^7.4.0",
@@ -68,6 +69,7 @@
     "popper.js": "^1.14.7",
     "precss": "^4.0.0",
     "rollbar": "^2.5.2",
-    "sequelize": "^4.43.0"
+    "sequelize": "^4.43.0",
+    "sqlite3": "^4.0.6"
   }
 }

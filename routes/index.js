@@ -1,13 +1,7 @@
-export default (router) => {
-  router.get('/', (ctx) => {
-    ctx.render('welcome/index');
-  });
+import welcome from './welcome';
+import users from './users';
+import sessions from './sessions';
 
-  router.get('/signup', (ctx) => {
-    ctx.render('users/new');
-  });
+const controllers = [welcome, users, sessions];
 
-  router.get('/login', (ctx) => {
-    ctx.render('sessions/new');
-  });
-};
+export default (router, container) => controllers.forEach(f => f(router, container));
