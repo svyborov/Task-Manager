@@ -1,3 +1,5 @@
+include /mixins/forms.pug
+
 doctype html
 html(lang='en')
   head
@@ -6,6 +8,14 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     title Best task manager ever!
   body
+    - const messages = flashMessage && flashMessage.messages
+    - if (messages)
+      - const messageKeys = Object.keys(messages)
+      each messageKey in messageKeys
+        .alert(class=`alert-${messageKey} alert-dismissible fade show` role="alert")
+          = messages[messageKey]
+          button(type="button" class="close" data-dismiss="alert" aria-label="Close")
+            span(aria-hidden="true") &times;
     nav.navbar.navbar-expand-md.navbar-dark.bg-dark.sticy-top
       .container-fluid
         .navbar-brand Task Manager
@@ -21,5 +31,6 @@ html(lang='en')
               a.nav-link(href='/signup') Sign up
     br
     br
-    block content
-    footer.mastfoot.mt-auto
+    .container
+      block content
+      footer.mastfoot.mt-auto

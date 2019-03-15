@@ -12,27 +12,26 @@ export default (router) => {
       ctx.render('users/new', { f: buildFormObj(user) });
     })
     .post('users', '/users', async (ctx) => {
-      const { request: { body: form } } = ctx;
-      console.log(ctx);
-      console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
-      console.log(ctx.req);
-      console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
-      console.log(ctx.request);
-      console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
-      console.log(ctx.request.body);
-      console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
-      console.log(form);
+      const { body: { form } } = ctx.request;
+      const { email } = form;
+      const userWhithEmail = await User.findOne({
+        where: {
+          email,
+        },
+      });
+
+      if (userWhithEmail) {
+        ctx.flash.set('email address already exists');
+        ctx.render('users/new');
+        return;
+      }
+
       const user = User.build(form);
-      console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
       try {
         await user.save();
-        // ctx.flash.set('User has been created');
-        const users = await User.findAll();
-        console.log(users);
-        // ctx.redirect(router.url('root'));
+        ctx.flash.set('User has been created');
+        ctx.redirect(router.url('root'));
       } catch (e) {
-        console.log('ОШИБОЧКА');
-        console.log(e);
         ctx.render('users/new', { f: buildFormObj(user, e) });
       }
     });

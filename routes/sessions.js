@@ -9,7 +9,7 @@ export default (router) => {
       ctx.render('sessions/new', { f: buildFormObj(data) });
     })
     .post('session', '/session', async (ctx) => {
-      const { email, password } = ctx.request.body.form;
+      const { form: { email, password } } = ctx.request.body;
       const user = await User.findOne({
         where: {
           email,
@@ -20,8 +20,7 @@ export default (router) => {
         ctx.redirect(router.url('root'));
         return;
       }
-
-      ctx.flash.set('email or password were wrong');
+      ctx.flashMessage.notice = 'email or password were wrong';
       ctx.render('sessions/new', { f: buildFormObj({ email }) });
     })
     .delete('session', '/session', (ctx) => {
