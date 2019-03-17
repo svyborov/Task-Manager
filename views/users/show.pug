@@ -8,6 +8,6 @@ block content
       i.glyphicon.glyphicon-envelope
       p= user.email
     if user.id === currentUserId
-      button.btn.btn-primary(href=urlFor('editUser', { id: user.id })) Edit
-      button.btn.btn-primary(href=urlFor('deleteUser', { id: user.id })) Delete
+      a.btn.btn-primary(href=urlFor('editUser', { id: user.id })) Edit
+      a.btn.btn-primary(href=urlFor('deleteUser', { id: user.id })) Delete
     
