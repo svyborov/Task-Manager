@@ -23,7 +23,7 @@ export default (router) => {
       ctx.flashMessage.notice = 'email or password were wrong';
       ctx.render('sessions/new', { f: buildFormObj({ email }) });
     })
-    .get('delsession', '/delsession', (ctx) => {
+    .delete('delsession', '/delsession', (ctx) => {
       ctx.session = {};
       ctx.redirect(router.url('root'));
     });

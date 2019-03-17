@@ -23,7 +23,7 @@ html(lang='en')
               li.nav-item
                 a.nav-link(href=urlFor('userProfile', { id : currentUserId })) Profile  
               li.nav-item
-                a.nav-link(href='/delsession' rel='nofollow') Sign Out
+                a.nav-link(href=urlFor('delsession') rel='nofollow') Sign Out
             else
               li.nav-item
                 a.nav-link(href=urlFor('newSession')) Log in
