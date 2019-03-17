@@ -8,6 +8,7 @@ const config = require('../config/config.json')[env];
 console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', env);
 const db = {};
 let sequelize;
+console.log(config.use_env_variable);
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable]);
 } else {
@@ -32,6 +33,5 @@ Object.keys(db).forEach((modelName) => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-console.log(db);
 
 module.exports = db;
