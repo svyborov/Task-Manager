@@ -1,0 +1,13 @@
+extends /layouts/application.pug
+
+block content
+  .col-sm-6.col-md-8
+    h4
+      p= user.fullName
+      
+    p
+      i.glyphicon.glyphicon-envelope
+      p= user.email
+      br
+    a.btn.btn-primary(href=urlFor('editUser', { id: user.id })) Edit
+    

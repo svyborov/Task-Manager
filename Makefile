@@ -12,6 +12,7 @@ test:
 testWatch:
 	npm run test --watchAll
 start:
-	npm run start
+	DEBUG="application:*" npx nodemon --watch .  --ext '.js' --exec npx gulp server
+
 dev:
 	npm run dev

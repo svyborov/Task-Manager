@@ -3,19 +3,11 @@ include /mixins/forms.pug
 doctype html
 html(lang='en')
   head
-    script(src='../dist/main.js', type='text/javascript')
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
     title Best task manager ever!
+    script(src='/assets/main.js')
   body
-    - const messages = flashMessage && flashMessage.messages
-    - if (messages)
-      - const messageKeys = Object.keys(messages)
-      each messageKey in messageKeys
-        .alert(class=`alert-${messageKey} alert-dismissible fade show` role="alert")
-          = messages[messageKey]
-          button(type="button" class="close" data-dismiss="alert" aria-label="Close")
-            span(aria-hidden="true") &times;
     nav.navbar.navbar-expand-md.navbar-dark.bg-dark.sticy-top
       .container-fluid
         .navbar-brand Task Manager
@@ -25,12 +17,27 @@ html(lang='en')
           ul.navbar-nav.ml-auto
             li.nav-item
               a.nav-link.active(href='/') Home
-            li.nav-item
-              a.nav-link(href='/login') Log in
-            li.nav-item
-              a.nav-link(href='/signup') Sign up
+            if isSignedIn()
+              li.nav-item
+                a.nav-link(href=urlFor('users')) Users
+              li.nav-item
+                a.nav-link(href=urlFor('userProfile', { id : currentUserId })) Profile  
+              li.nav-item
+                a.nav-link(href='/delsession' rel='nofollow') Sign Out
+            else
+              li.nav-item
+                a.nav-link(href=urlFor('newSession')) Log in
+              li.nav-item
+                a.nav-link(href=urlFor('newUser')) Sign up
+    - const messages = flashMessage && flashMessage.messages
+    - if (messages)
+      - const messageKeys = Object.keys(messages)
+      each messageKey in messageKeys
+        .alert(class=`alert-${messageKey} alert-dismissible fade show` role="alert")
+          = messages[messageKey]
+          button(type="button" class="close" data-dismiss="alert" aria-label="Close")
+            span(aria-hidden="true") &times;
     br
     br
     .container
       block content
-      footer.mastfoot.mt-auto
