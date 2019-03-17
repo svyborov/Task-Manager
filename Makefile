@@ -8,7 +8,7 @@ publish:
 lint:
 	npx eslint .
 test:
-	npm run test
+	npm test
 testWatch:
 	npm run test --watchAll
 start:
