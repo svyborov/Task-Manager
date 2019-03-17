@@ -10,10 +10,7 @@ const checkLogin = async (ctx, next) => {
 };
 
 const checkRights = async (ctx, next) => {
-  console.log('id: ', ctx.params.id);
-  console.log('userId: ', ctx.session.userId);
-  console.log(ctx.params.id !== ctx.session.userId);
-  if (ctx.params.id !== ctx.session.userId) {
+  if (parseInt(ctx.params.id, 10) !== ctx.session.userId) {
     ctx.flashMessage.notice = 'You don\'t have permission to perform this action';
     ctx.redirect('/');
     return;
@@ -47,7 +44,6 @@ export default (router) => {
           id,
         },
       });
-      console.log(user);
       await user.destroy();
       ctx.flashMessage.notice = 'User has been deleted';
       ctx.redirect(router.url('root'));
