@@ -12,6 +12,7 @@ const checkLogin = async (ctx, next) => {
 const checkRights = async (ctx, next) => {
   console.log('id: ', ctx.params.id);
   console.log('userId: ', ctx.session.userId);
+  console.log(ctx.params.id !== ctx.session.userId);
   if (ctx.params.id !== ctx.session.userId) {
     ctx.flashMessage.notice = 'You don\'t have permission to perform this action';
     ctx.redirect('/');
