@@ -20,6 +20,19 @@ export default (router) => {
       });
       ctx.render('users/edit', { f: buildFormObj(user), user });
     })
+    .get('deleteUser', '/users/:id/delete', async (ctx) => {
+      const { id } = ctx.params;
+      const user = await User.findOne({
+        where: {
+          id,
+        },
+      });
+      console.log(user);
+      await user.destroy();
+      ctx.flashMessage.notice = 'User has been deleted';
+      ctx.redirect(router.url('root'));
+    })
+
     .get('userProfile', '/profile/:id', async (ctx) => {
       const { id } = ctx.params;
       const user = await User.findOne({
