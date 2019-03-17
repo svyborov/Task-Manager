@@ -1,17 +1,34 @@
 import buildFormObj from '../lib/formObjectBuilder';
 import { User } from '../models';
 
+const checkLogin = async (ctx, next) => {
+  if (ctx.session.userId) {
+    ctx.redirect('/');
+    return;
+  }
+  await next();
+};
+
+const checkRights = async (ctx, next) => {
+  if (ctx.params.id !== ctx.session.userId) {
+    ctx.flashMessage.notice = 'You don\'t have permission to perform this action';
+    ctx.redirect('/');
+    return;
+  }
+  await next();
+};
+
 export default (router) => {
   router
     .get('users', '/users', async (ctx) => {
       const users = await User.findAll();
       ctx.render('users', { users });
     })
-    .get('newUser', '/signup', (ctx) => {
+    .get('newUser', '/signup', checkLogin, (ctx) => {
       const user = User.build();
       ctx.render('users/new', { f: buildFormObj(user) });
     })
-    .get('editUser', '/users/:id/edit', async (ctx) => {
+    .get('editUser', '/users/:id/edit', checkRights, async (ctx) => {
       const { id } = ctx.params;
       const user = await User.findOne({
         where: {
@@ -20,7 +37,7 @@ export default (router) => {
       });
       ctx.render('users/edit', { f: buildFormObj(user), user });
     })
-    .get('deleteUser', '/users/:id/delete', async (ctx) => {
+    .get('deleteUser', '/users/:id/delete', checkRights, async (ctx) => {
       const { id } = ctx.params;
       const user = await User.findOne({
         where: {
@@ -42,7 +59,7 @@ export default (router) => {
       });
       ctx.render('users/show', { user });
     })
-    .patch('editUser', '/users/:id/edit', async (ctx) => {
+    .patch('editUser', '/users/:id/edit', checkRights, async (ctx) => {
       const { id } = ctx.params;
       const { body: { form } } = ctx.request;
       const {

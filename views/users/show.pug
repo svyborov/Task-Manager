@@ -4,11 +4,10 @@ block content
   .col-sm-6.col-md-8
     h4
       p= user.fullName
-      
     p
       i.glyphicon.glyphicon-envelope
       p= user.email
-      br
-    a.btn.btn-primary(href=urlFor('editUser', { id: user.id })) Edit
-    a.btn.btn-primary(href=urlFor('deleteUser', { id: user.id })) Delete
+    if user.id === currentUserId
+      button.btn.btn-primary(href=urlFor('editUser', { id: user.id })) Edit
+      button.btn.btn-primary(href=urlFor('deleteUser', { id: user.id })) Delete
     
