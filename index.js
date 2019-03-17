@@ -55,7 +55,7 @@ export default () => {
     }
   });
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV === 'development') {
     koaWebpack({
       config: webpackConfig,
     }).then(m => app.use(m));

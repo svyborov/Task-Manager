@@ -6,7 +6,14 @@
   "bin": {
     "hexlet": "dist/bin/hexlet.js"
   },
+  "engines": {
+    "node": "9"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "scripts": {
+    "test": "jest",
     "dev": "webpack-dev-server --mode development --open",
     "start": "gulp server",
     "build": "npx webpack -p --env production",
@@ -35,8 +42,10 @@
     "eslint": "^5.15.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
+    "jest-supertest-matchers": "0.0.2",
     "postcss-loader": "^3.0.0",
     "style-loader": "^0.23.1",
+    "supertest": "^4.0.2",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.2.1"
   },

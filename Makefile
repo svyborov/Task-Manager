@@ -8,11 +8,12 @@ publish:
 lint:
 	npx eslint .
 test:
-	npm test
+	npm run test
 testWatch:
 	npm run test --watchAll
 start:
 	DEBUG="application:*" npx nodemon --watch .  --ext '.js' --exec npx gulp server
-
 dev:
 	npm run dev
+
+.PHONY: test
