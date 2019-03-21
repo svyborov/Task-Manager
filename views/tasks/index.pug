@@ -1,0 +1,24 @@
+extends /layouts/application.pug
+
+block content
+  a.btn.btn-primary(href=urlFor('newTask')) Create task
+  a.btn.btn-primary(href=urlFor('newStatus')) Create status
+  
+  table.table
+    thead
+      tr
+        th name
+        th Description
+        th Status
+        th Tags
+        th Assigned to
+        th Author
+    tbody
+      each task in tasks
+        tr
+          td= task.name
+          td= task.description
+          td= task.taskStatus.name
+          td= task.description
+          td= task.creator.fullName
+          td= task.assignedTo.fullName

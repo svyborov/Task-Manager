@@ -1,0 +1,14 @@
+extends /layouts/application.pug
+
+block content
+  .main.container
+    .row
+      .col-md-6.col-md-offset-3
+        h1.h3.mb-3.font-weight-normal Your profile
+        +formFor(f, { url: urlFor('updateUser', { id: user.id }), method: 'patch' })
+          +input(f, 'firstName', 'inputFirstName', { as: 'text' })
+          +input(f, 'lastName', 'inputLastName', { as: 'text' })
+          +input(f, 'email', 'inputEmail', { as: 'email' })
+          +input(f, 'password', 'inputPassword', { as: 'password' })
+          br
+          +button(f, 'submit', 'Save')

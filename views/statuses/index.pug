@@ -1,0 +1,13 @@
+extends /layouts/application.pug
+
+block content
+  a.btn.btn-primary(href=urlFor('newStatus')) Create status
+  
+  table.table
+    thead
+      tr
+        th name
+    tbody
+      each status in statuses
+        tr
+          td= status.name

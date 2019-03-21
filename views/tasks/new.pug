@@ -1,0 +1,14 @@
+extends /layouts/application.pug
+
+block content
+  .main.container
+    .row
+      .col-md-6.col-md-offset-3
+        h1.h3.mb-3.font-weight-normal Create task
+        +formFor(f, { url: urlFor('createTask'), method: 'post' })
+          +input(f, 'name', 'inputname', { as: 'text' })
+          +input(f, 'description', 'inputDescription', { as: 'text' })
+          +input(f, 'creatorId', 'inputCreatorId', { as: 'number' })
+          +input(f, 'assignedToId', 'inputAssignedToId', { as: 'number' })
+          br
+          +button(f, 'submit', 'Create new task')
