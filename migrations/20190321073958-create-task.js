@@ -13,7 +13,6 @@ module.exports = {
       references: {
         model: 'TaskStatuses',
         key: 'id',
-        deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE,
       },
     },
     creatorId: {
@@ -21,7 +20,6 @@ module.exports = {
       references: {
         model: 'Users',
         key: 'id',
-        deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE,
       },
     },
     assignedToId: {
@@ -29,7 +27,6 @@ module.exports = {
       references: {
         model: 'Users',
         key: 'id',
-        deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE,
       },
     },
     createdAt: {

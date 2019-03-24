@@ -11,7 +11,6 @@ module.exports = {
       references: {
         model: 'Tasks',
         key: 'id',
-        deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE,
       },
     },
     tagId: {
@@ -19,7 +18,6 @@ module.exports = {
       references: {
         model: 'Tags',
         key: 'id',
-        deferrable: Sequelize.Deferrable.INITIALLY_IMMEDIATE,
       },
     },
     createdAt: {
