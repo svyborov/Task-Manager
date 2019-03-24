@@ -17,12 +17,13 @@ html(lang='en')
         ul.navbar-nav.ml-auto
           li.nav-item
             a.nav-link(href='/') Home
-          li.nav-item
-            a.nav-link(href=urlFor('tasks')) Tasks
-          li.nav-item
-            a.nav-link(href=urlFor('users')) Users
-            a.nav-link(href=urlFor('statuses')) Statuses
           if isSignedIn()
+            li.nav-item
+              a.nav-link(href=urlFor('tasks')) Tasks
+            li.nav-item
+              a.nav-link(href=urlFor('users')) Users
+            li.nav-item
+              a.nav-link(href=urlFor('statuses')) Statuses
             li.nav-item
               a.nav-link(href=urlFor('showUser', { id : currentUserId })) Profile  
             li.nav-item

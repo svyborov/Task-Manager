@@ -5,45 +5,36 @@ import { checkLogin } from '../lib/utils';
 
 export default (router) => {
   router
-    .get('statuses', '/statuses', async (ctx) => {
+    .get('statuses', '/statuses', checkLogin, async (ctx) => {
       try {
         const statuses = await TaskStatus.findAll();
         ctx.render('statuses', { statuses });
       } catch (e) {
-        console.log(e);
         ctx.render('statuses', { f: buildFormObj(e) });
       }
     })
-    .get('newStatus', '/statuses/new', (ctx) => {
+    .get('newStatus', '/statuses/new', checkLogin, (ctx) => {
       const status = TaskStatus.build();
       ctx.render('statuses/new', { f: buildFormObj(status) });
     })
     .post('createStatus', '/statuses', async (ctx) => {
       const { body: { form } } = ctx.request;
-      // const { name, description } = form;
-      console.log(form);
       const status = TaskStatus.build(form);
       try {
         await status.save();
         ctx.flashMessage.notice = 'Status has been created';
         ctx.redirect(router.url('statuses'));
       } catch (e) {
-        console.log(e);
         ctx.render('statuses/new', { f: buildFormObj(status, e) });
       }
     })
     .patch('updateStatus', '/statuses/:id', checkLogin, async (ctx) => {
       const { id } = ctx.params;
-      const { body: { form } } = ctx.request;
-      const {
-        firstName, lastName, email, password,
-      } = form;
+      const { body: { name } } = ctx.request;
       const status = await TaskStatus.findByPk(id);
       try {
-        await status.update({
-          firstName, lastName, email, password,
-        });
-        ctx.flashMessage.notice = 'User has been updated';
+        await status.update({ name });
+        ctx.flashMessage.notice = 'Status has been updated';
         ctx.redirect(router.url('statuses'));
       } catch (e) {
         ctx.render('statuses', { f: buildFormObj(status, e) });
@@ -56,7 +47,6 @@ export default (router) => {
         await status.destroy();
         ctx.redirect(router.url('statuses'));
       } catch (e) {
-        console.log(e);
         ctx.render('statuses', { f: buildFormObj(status, e) });
       }
     });

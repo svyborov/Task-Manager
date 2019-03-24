@@ -1,22 +1,17 @@
 extends /layouts/application.pug
 
 block content
-  a.btn.btn-primary(href=urlFor('newStatus')) Create status
-  
-  table.table
-    thead
-      tr
-        th name
-    tbody
-      each status in statuses
-        tr
+  .row.justify-content-center
+    .card
+      .card-body
+        h5.card-title Statuses
+        each status in statuses
           +formFor({ f: status }, { url: urlFor('updateStatus', { id: status.id }), method: 'patch' })
-          td= status.name
-          td
-            input({ f: status }, 'name', 'inputname', { as: 'text' })
-          td
-            +button({ f: status }, 'submit', 'Save')
-          
-          td
-            a.btn.btn-primary.btn-danger(href=urlFor('deleteStatus', { id: status.id }) data-method='delete' rel='nofollow') Delete
-            
+            .d-inline-flex
+              +inputStatuses(status, 'name', 'inputname', { as: 'text' })
+            .d-inline-flex
+              +button(f, 'submit', 'Save')
+            .d-inline-flex
+              a.btn.btn-primary.btn-danger(href=urlFor('deleteStatus', { id: status.id }) data-method='delete' rel='nofollow') Delete
+        a.btn.btn-primary(href=urlFor('newStatus')) Create status
+      
