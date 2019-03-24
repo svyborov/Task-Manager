@@ -23,7 +23,7 @@ export default (sequelize, DataTypes) => {
           assignedToId: id,
         },
       }),
-      filterByMyTasks: id => ({
+      filterByCreatorId: id => ({
         where: {
           creatorId: id,
         },
@@ -34,7 +34,20 @@ export default (sequelize, DataTypes) => {
     Task.belongsTo(models.User, { as: 'creator', foreignKey: 'creatorId' });
     Task.belongsTo(models.User, { as: 'assignedTo', foreignKey: 'assignedToId' });
     Task.belongsTo(models.TaskStatus, { as: 'taskStatus', foreignKey: 'taskStatusId' });
-    Task.belongsToMany(models.Tag, { through: 'TagsToTasks', as: 'tags', foreignKey: 'taskId' });
+    Task.belongsToMany(models.Tag, { through: 'TagsToTasks',  foreignKey: 'taskId' });
+    Task.addScope('Assotiations', { include: ['creator', 'assignedTo', 'taskStatus', 'Tags']});
+    Task.addScope('filterByTagsIds', tagsIds => ({
+      include: [
+        {
+          model: models.Tag,
+          where: {
+            id: {
+              [sequelize.Op.in]: tagsIds,
+            },
+          },
+        },
+      ],
+    }));
   };
   return Task;
 };

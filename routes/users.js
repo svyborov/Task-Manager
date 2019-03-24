@@ -49,17 +49,17 @@ export default (router) => {
     })
     .get('showUser', '/users/:id', async (ctx) => {
       const { id } = ctx.params;
-      const user = await User.findOne({ where: { id } });
+      const user = await User.findByPk(id);
       ctx.render('users/show', { user });
     })
     .get('editUser', '/users/:id/edit', checkRights, async (ctx) => {
       const { id } = ctx.params;
-      const user = await User.findOne({ where: { id } });
+      const user = await User.findByPk(id);
       ctx.render('users/edit', { f: buildFormObj(user), user });
     })
     .delete('deleteUser', '/users/:id/delete', checkRights, async (ctx) => {
       const { id } = ctx.params;
-      const user = await User.findOne({ where: { id } });
+      const user = await User.findByPk(id);
       await user.destroy();
       ctx.session = {};
       ctx.redirect(router.url('root'));
@@ -70,7 +70,7 @@ export default (router) => {
       const {
         firstName, lastName, email, password,
       } = form;
-      const user = await User.findOne({ where: { id } });
+      const user = await User.findByPk(id);
       try {
         await user.update({
           firstName, lastName, email, password,

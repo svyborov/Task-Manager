@@ -3,7 +3,9 @@ export default (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       unique: true,
-      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
     },
   });
 
