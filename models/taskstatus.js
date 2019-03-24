@@ -7,9 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {});
   TaskStatus.associate = (models) => {
-    TaskStatus.hasOne(models.Task, {
-      foreignKey: 'taskStatusId',
-    });
+    TaskStatus.hasOne(models.Task, { foreignKey: 'taskStatusId' });
   };
   return TaskStatus;
 };

@@ -7,19 +7,9 @@ block content
         h1.h3.mb-3.font-weight-normal Create task
         +formFor(f, { url: urlFor('createTask'), method: 'post' })
           +input(f, 'name', 'inputname', { as: 'text' })
-          +input(f, 'description', 'inputDescription', { as: 'text' })
+          +textarea(f, 'description', 'inputDescription', { as: 'text' })
           +input(f, 'tags', 'inputTags', { as: 'text' })
-          .form-group
-            span.tag.tag-pill.tag-primary Default
-          .form-group
-            label.sr-only(for='exampleFormControlSelect1') Example select
-            select#exampleFormControlSelect1.form-control(name="form[assignedToId]")
-              each user in users
-                option(value=user.id)=user.fullName
-          .form-group
-            label.sr-only(for='exampleFormControlSelect2') Example 2
-            select#exampleFormControlSelect2.form-control(name="form[taskStatusId]")
-              each status in statuses
-                option(value=status.id)=status.name
+          +select('assignedTo', 'assignedToId', users, 'fullName')
+          +select('taskStatus', 'taskStatusId', statuses, 'name')
           br
           +button(f, 'submit', 'Create new task')

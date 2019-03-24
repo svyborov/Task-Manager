@@ -8,12 +8,8 @@ export default (sequelize, DataTypes) => {
     },
   });
   TagsToTasks.associate = (models) => {
-    TagsToTasks.belongsTo(models.Task, {
-      foreignKey: 'taskId',
-    });
-    TagsToTasks.belongsTo(models.Tag, {
-      foreignKey: 'tagId',
-    });
+    TagsToTasks.belongsTo(models.Task, { foreignKey: 'taskId' });
+    TagsToTasks.belongsTo(models.Tag, { foreignKey: 'tagId' });
   };
   return TagsToTasks;
 };

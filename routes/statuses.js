@@ -1,7 +1,7 @@
 import buildFormObj from '../lib/formObjectBuilder';
-import {
-  TaskStatus,
-} from '../models';
+import { TaskStatus } from '../models';
+import { checkLogin } from '../lib/utils';
+
 
 export default (router) => {
   router
@@ -32,7 +32,24 @@ export default (router) => {
         ctx.render('statuses/new', { f: buildFormObj(status, e) });
       }
     })
-    .delete('deleteStatus', '/statuses/:id/delete', async (ctx) => {
+    .patch('updateStatus', '/statuses/:id', checkLogin, async (ctx) => {
+      const { id } = ctx.params;
+      const { body: { form } } = ctx.request;
+      const {
+        firstName, lastName, email, password,
+      } = form;
+      const status = await TaskStatus.findByPk(id);
+      try {
+        await status.update({
+          firstName, lastName, email, password,
+        });
+        ctx.flashMessage.notice = 'User has been updated';
+        ctx.redirect(router.url('statuses'));
+      } catch (e) {
+        ctx.render('statuses', { f: buildFormObj(status, e) });
+      }
+    })
+    .delete('deleteStatus', '/statuses/:id/delete', checkLogin, async (ctx) => {
       const { id } = ctx.params;
       const status = await TaskStatus.findOne({ where: { id } });
       try {

@@ -2,6 +2,7 @@ import buildFormObj from '../lib/formObjectBuilder';
 import {
   Task, Tag, TaskStatus, User,
 } from '../models';
+import { checkLogin } from '../lib/utils';
 
 const getTagsId = async (tags = '') => {
   console.log('VALUE:                   ', tags);
@@ -62,7 +63,7 @@ export default (router) => {
     })
     .post('createTask', '/tasks', async (ctx) => {
       const { body: { form } } = ctx.request;
-      form.creatorId = 1;
+      form.creatorId = 1; // СДЕЛАТЬ НОРМАЛЬЫНЙ ID!!!11
       const task = Task.build(form);
       try {
         const { tags } = form;
@@ -85,5 +86,50 @@ export default (router) => {
         console.log(e);
         ctx.render('tasks', { f: buildFormObj(e) });
       }
+    })
+    .get('editTask', '/tasks/:id/edit', checkLogin, async (ctx) => {
+      try {
+        const { id } = ctx.params;
+        const task = await Task.scope('Assotiations').findByPk(id);
+        const statuses = await TaskStatus.findAll();
+        const users = await User.findAll();
+        const { Tags } = task;
+        const tagsNames = Tags.map(tag => tag.name);
+        task.tagsNames = tagsNames;
+        ctx.render('tasks/edit', {
+          f: buildFormObj(task), task, statuses, users,
+        });
+      } catch (e) {
+        console.log(e);
+        ctx.render('tasks', { f: buildFormObj(e) });
+      }
+    })
+    .patch('updateTask', '/tasks/:id', async (ctx) => {
+      const { id } = ctx.params;
+      const { body: { form } } = ctx.request;
+      const {
+        name, description, tagsNames, assignedToId, taskStatusId,
+      } = form;
+      const tagsIds = await getTagsId(tagsNames);
+      const task = await Task.findByPk(id);
+      try {
+        await task.update({
+          name, description, assignedToId, taskStatusId,
+        });
+        await task.setTags(tagsIds);
+        console.log(form);
+        ctx.flashMessage.notice = 'Task has been updated';
+        ctx.redirect(router.url('tasks'));
+      } catch (e) {
+        console.log(e);
+        ctx.render('tasks/new', { f: buildFormObj(task, e) });
+      }
+    })
+    .delete('deleteTask', '/tasks/:id/delete', async (ctx) => {
+      const { id } = ctx.params;
+      const task = await Task.findByPk(id);
+      await task.destroy();
+      ctx.session = {};
+      ctx.redirect(router.url('tasks'));
     });
 };
