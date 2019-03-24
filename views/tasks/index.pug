@@ -2,8 +2,24 @@ extends /layouts/application.pug
 
 block content
   a.btn.btn-primary(href=urlFor('newTask')) Create task
-  a.btn.btn-primary(href=urlFor('newStatus')) Create status
-  
+  +formFor(f, { url: urlFor('tasks'), method: 'get' })
+    +input(f, 'tags', 'inputTags', { as: 'text' })
+    .form-check
+      input.form-check-input(type="checkbox" value="1" id="defaultCheck1" name="form[creatorId]")
+      label.form-check-label(for="defaultCheck1") My tasks
+    .form-group
+      label.sr-only(for='exampleFormControlSelect1') Example select
+      select#exampleFormControlSelect1.form-control(name="form[assignedToId]")
+        option
+        each user in users
+          option(value=user.id)=user.fullName
+    .form-group
+      label.sr-only(for='exampleFormControlSelect2') Example 2
+      select#exampleFormControlSelect2.form-control(name="form[taskStatusId]")
+        option
+        each status in statuses
+          option(value=status.id)=status.name
+    +button(f, 'submit', 'Filter')
   table.table
     thead
       tr
@@ -13,12 +29,18 @@ block content
         th Tags
         th Assigned to
         th Author
+        th
     tbody
       each task in tasks
         tr
           td= task.name
           td= task.description
           td= task.taskStatus.name
-          td= task.description
+          td
+            each tag in task.tags
+              a.badge.badge-primary(href="#")= tag.name
           td= task.creator.fullName
           td= task.assignedTo.fullName
+          td
+            a.btn.btn-primary.btn-danger(href=urlFor('deleteTask', { id: task.id }) data-method='delete' rel='nofollow') Delete
+          

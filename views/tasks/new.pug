@@ -8,7 +8,18 @@ block content
         +formFor(f, { url: urlFor('createTask'), method: 'post' })
           +input(f, 'name', 'inputname', { as: 'text' })
           +input(f, 'description', 'inputDescription', { as: 'text' })
-          +input(f, 'creatorId', 'inputCreatorId', { as: 'number' })
-          +input(f, 'assignedToId', 'inputAssignedToId', { as: 'number' })
+          +input(f, 'tags', 'inputTags', { as: 'text' })
+          .form-group
+            span.tag.tag-pill.tag-primary Default
+          .form-group
+            label.sr-only(for='exampleFormControlSelect1') Example select
+            select#exampleFormControlSelect1.form-control(name="form[assignedToId]")
+              each user in users
+                option(value=user.id)=user.fullName
+          .form-group
+            label.sr-only(for='exampleFormControlSelect2') Example 2
+            select#exampleFormControlSelect2.form-control(name="form[taskStatusId]")
+              each status in statuses
+                option(value=status.id)=status.name
           br
           +button(f, 'submit', 'Create new task')

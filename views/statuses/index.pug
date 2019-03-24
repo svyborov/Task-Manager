@@ -11,3 +11,6 @@ block content
       each status in statuses
         tr
           td= status.name
+          td
+            a.btn.btn-primary.btn-danger(href=urlFor('deleteStatus', { id: status.id }) data-method='delete' rel='nofollow') Delete
+            

@@ -1,44 +1,54 @@
 import buildFormObj from '../lib/formObjectBuilder';
 import {
-  Task, Tag, TaskStatus, TagsToTasks, User,
+  Task, Tag, TaskStatus, User,
 } from '../models';
+
+const getTagsId = async (tags) => {
+  const normalizedTags = tags.replace(/\s/g, '').split(',');
+  const tagsId = await Promise.all(normalizedTags.map(async (name) => {
+    const tag = await Tag.findCreateFind({ where: { name } });
+    return tag[0].id;
+  }));
+  return tagsId;
+};
 
 export default (router) => {
   router
     .get('tasks', '/tasks', async (ctx) => {
+      const { query } = ctx.request;
+      console.log(query);
+      const statuses = await TaskStatus.findAll();
+      const users = await User.findAll();
+      const tags = await Tag.findAll();
       try {
-        const tags = await Tag.findAll();
-        const taskstatus = await TaskStatus.findAll();
-        const ttt = await TagsToTasks.findAll();
-        console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-        console.log(tags);
-        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
-        console.log(taskstatus);
-        console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
-        console.log(ttt);
-        console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
         const tasks = await Task.findAll({
-          include: [{ model: User, as: 'assignedTo' }, { model: User, as: 'creator' }, { model: TaskStatus, as: 'taskStatus' }],
+          include: [{ model: User, as: 'assignedTo' }, { model: User, as: 'creator' }, { model: TaskStatus, as: 'taskStatus' }, { model: Tag, as: 'tags' }],
         });
-        console.log(tasks);
+        // console.log(tasks);
         ctx.flashMessage.notice = 'ALL RIGHT';
-        ctx.render('tasks', { tasks });
+        ctx.render('tasks', {
+          f: buildFormObj(tasks), tasks, statuses, users, tags,
+        });
       } catch (e) {
         console.log(e);
         ctx.render('tasks/new', { f: buildFormObj(e) });
       }
     })
-    .get('newTask', '/tasks/new', (ctx) => {
+    .get('newTask', '/tasks/new', async (ctx) => {
       const task = Task.build();
-      ctx.render('tasks/new', { f: buildFormObj(task) });
+      const statuses = await TaskStatus.findAll();
+      const users = await User.findAll();
+      ctx.render('tasks/new', { f: buildFormObj(task), statuses, users });
     })
     .post('createTask', '/tasks', async (ctx) => {
       const { body: { form } } = ctx.request;
-      // const { name, description } = form;
-      console.log(form);
+      form.creatorId = 1;
       const task = Task.build(form);
       try {
+        const { tags } = form;
+        const tagsId = getTagsId(tags);
         await task.save();
+        await task.setTags(tagsId);
         ctx.flashMessage.notice = 'Task has been created';
         ctx.redirect(router.url('tasks'));
       } catch (e) {

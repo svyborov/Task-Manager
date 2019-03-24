@@ -31,5 +31,16 @@ export default (router) => {
         console.log(e);
         ctx.render('statuses/new', { f: buildFormObj(status, e) });
       }
+    })
+    .delete('deleteStatus', '/statuses/:id/delete', async (ctx) => {
+      const { id } = ctx.params;
+      const status = await TaskStatus.findOne({ where: { id } });
+      try {
+        await status.destroy();
+        ctx.redirect(router.url('statuses'));
+      } catch (e) {
+        console.log(e);
+        ctx.render('statuses', { f: buildFormObj(status, e) });
+      }
     });
 };

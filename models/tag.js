@@ -8,7 +8,9 @@ export default (sequelize, DataTypes) => {
   });
 
   Tag.associate = (models) => {
-    Tag.hasMany(models.TagsToTasks, {
+    Tag.belongsToMany(models.Task, {
+      through: 'TagsToTasks',
+      as: 'posts',
       foreignKey: 'tagId',
     });
   };
