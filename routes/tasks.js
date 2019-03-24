@@ -54,14 +54,17 @@ export default (router) => {
       const { body: { form } } = ctx.request;
       form.creatorId = ctx.session.userId;
       const task = Task.build(form);
+      console.log('ФОРМА:::::   ', form);
+      console.log('ТАСК:::::   ', task);
       try {
         const { tags } = form;
-        const tagsIds = getTagsId(tags);
+        const tagsIds = await getTagsId(tags);
         await task.save();
         await task.setTags(tagsIds);
         ctx.flashMessage.notice = 'Task has been created';
         ctx.redirect(router.url('tasks'));
       } catch (e) {
+        console.log('ОШИБКА:::::   ', e);
         ctx.render('tasks/new', { f: buildFormObj(task, e) });
       }
     })
