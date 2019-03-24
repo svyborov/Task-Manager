@@ -4,11 +4,11 @@ import { checkLogin, checkRights } from '../lib/utils';
 
 export default (router) => {
   router
-    .get('users', '/users', async (ctx) => {
+    .get('users', '/users', checkLogin, async (ctx) => {
       const users = await User.findAll();
       ctx.render('users', { users });
     })
-    .get('newUser', '/users/new', checkLogin, (ctx) => {
+    .get('newUser', '/users/new', (ctx) => {
       const user = User.build();
       ctx.render('users/new', { f: buildFormObj(user) });
     })
@@ -30,7 +30,7 @@ export default (router) => {
         ctx.render('users/new', { f: buildFormObj(user, e) });
       }
     })
-    .get('showUser', '/users/:id', async (ctx) => {
+    .get('showUser', '/users/:id', checkLogin, async (ctx) => {
       const { id } = ctx.params;
       const user = await User.findByPk(id);
       ctx.render('users/show', { user });
