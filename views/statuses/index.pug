@@ -8,10 +8,11 @@ block content
         each status in statuses
           +formFor({ f: status }, { url: urlFor('updateStatus', { id: status.id }), method: 'patch' })
             .d-inline-flex
-              +inputStatuses(status, 'name', 'inputname', { as: 'text' })
+              +inputStatuses(f, status, 'name', 'inputname', { as: 'text' })
             .d-inline-flex
               +button(f, 'submit', 'Save')
-            .d-inline-flex
-              a.btn.btn-primary.btn-danger(href=urlFor('deleteStatus', { id: status.id }) data-method='delete' rel='nofollow') Delete
+            if(minStatusId !== status.id)
+              .d-inline-flex
+                a.btn.btn-primary.btn-danger(href=urlFor('deleteStatus', { id: status.id }) data-method='delete' rel='nofollow') Delete
         a.btn.btn-primary(href=urlFor('newStatus')) Create status
       

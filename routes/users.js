@@ -27,25 +27,42 @@ export default (router) => {
         ctx.flashMessage.notice = 'User has been created';
         ctx.redirect(router.url('root'));
       } catch (e) {
-        ctx.render('users/new', { f: buildFormObj(user, e) });
+        console.log(e);
+        ctx.flashMessage.warning = 'Invalid fields';
+        ctx.render('users/new', { f: buildFormObj({ firstName, lastName }, e) });
       }
     })
     .get('showUser', '/users/:id', checkLogin, async (ctx) => {
       const { id } = ctx.params;
-      const user = await User.findByPk(id);
-      ctx.render('users/show', { user });
+      try {
+        const user = await User.findByPk(id);
+        ctx.render('users/show', { user });
+      } catch (e) {
+        ctx.flashMessage.warning = `User with id ${id} is not found`;
+        ctx.redirect(router.url('root'));
+      }
     })
     .get('editUser', '/users/:id/edit', checkRights, async (ctx) => {
       const { id } = ctx.params;
-      const user = await User.findByPk(id);
-      ctx.render('users/edit', { f: buildFormObj(user), user });
+      try {
+        const user = await User.findByPk(id);
+        ctx.render('users/edit', { f: buildFormObj(user), user });
+      } catch (e) {
+        ctx.flashMessage.warning = `User with id ${id} is not found`;
+        ctx.redirect(router.url('root'));
+      }
     })
     .delete('deleteUser', '/users/:id/delete', checkRights, async (ctx) => {
       const { id } = ctx.params;
-      const user = await User.findByPk(id);
-      await user.destroy();
-      ctx.session = {};
-      ctx.redirect(router.url('root'));
+      try {
+        const user = await User.findByPk(id);
+        await user.destroy();
+        ctx.session = {};
+        ctx.redirect(router.url('root'));
+      } catch (e) {
+        ctx.flashMessage.warning = `User with id ${id} is not found`;
+        ctx.redirect(router.url('root'));
+      }
     })
     .patch('updateUser', '/users/:id', checkRights, async (ctx) => {
       const { id } = ctx.params;
@@ -61,7 +78,8 @@ export default (router) => {
         ctx.flashMessage.notice = 'User has been updated';
         ctx.redirect(router.url('root'));
       } catch (e) {
-        ctx.render('users/new', { f: buildFormObj(user, e) });
+        ctx.flashMessage.warning = 'Invalid fields';
+        ctx.render('users/edit', { f: buildFormObj(user, e) });
       }
     });
 };

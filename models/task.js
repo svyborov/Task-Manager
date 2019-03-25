@@ -1,9 +1,17 @@
 export default (sequelize, DataTypes) => {
   const Task = sequelize.define('Task', {
-    name: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: { args: true, msg: "Name cannot be empty"},
+      },
+    },
     description: DataTypes.TEXT,
     taskStatusId: {
       type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: { args: true, msg: "Task status cannot be empty"},
+      },
     },
     creatorId: {
       type: DataTypes.INTEGER,

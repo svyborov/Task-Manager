@@ -29,20 +29,16 @@ export default (router) => {
   router
     .get('tasks', '/tasks', checkLogin, async (ctx) => {
       const { query } = ctx.request;
-      try {
-        const tagsIds = await getTagsId(query.tags);
-        query.tagsIds = await tagsIds;
-        const localScopes = await createScopes(query);
-        const statuses = await TaskStatus.findAll();
-        const users = await User.findAll();
-        const tags = await Tag.findAll();
-        const tasks = await Task.scope(localScopes).findAll();
-        ctx.render('tasks', {
-          f: buildFormObj(tasks), tasks, statuses, users, tags,
-        });
-      } catch (e) {
-        ctx.render('tasks', { f: buildFormObj(e) });
-      }
+      const tagsIds = await getTagsId(query.tags);
+      query.tagsIds = await tagsIds;
+      const localScopes = await createScopes(query);
+      const statuses = await TaskStatus.findAll();
+      const users = await User.findAll();
+      const tags = await Tag.findAll();
+      const tasks = await Task.scope(localScopes).findAll();
+      ctx.render('tasks', {
+        f: buildFormObj(tasks), tasks, statuses, users, tags,
+      });
     })
     .get('newTask', '/tasks/new', checkLogin, async (ctx) => {
       const task = Task.build();
@@ -54,8 +50,6 @@ export default (router) => {
       const { body: { form } } = ctx.request;
       form.creatorId = ctx.session.userId;
       const task = Task.build(form);
-      console.log('ФОРМА:::::   ', form);
-      console.log('ТАСК:::::   ', task);
       try {
         const { tags } = form;
         const tagsIds = await getTagsId(tags);
@@ -64,22 +58,25 @@ export default (router) => {
         ctx.flashMessage.notice = 'Task has been created';
         ctx.redirect(router.url('tasks'));
       } catch (e) {
-        console.log('ОШИБКА:::::   ', e);
-        ctx.render('tasks/new', { f: buildFormObj(task, e) });
+        const statuses = await TaskStatus.findAll();
+        const users = await User.findAll();
+        ctx.flashMessage.warning = 'Invalid fields';
+        ctx.render('tasks/new', { f: buildFormObj(task, e), statuses, users });
       }
     })
-    .get('showTask', '/tasks/:id', async (ctx) => {
+    .get('showTask', '/tasks/:id', checkLogin, async (ctx) => {
+      const { id } = ctx.params;
       try {
-        const { id } = ctx.params;
         const task = await Task.scope('Assotiations').findByPk(id);
         ctx.render('tasks/show', { f: buildFormObj(task), task });
       } catch (e) {
-        ctx.render('tasks', { f: buildFormObj(e) });
+        ctx.flashMessage.warning = `Taswk with id ${id} is not found`;
+        ctx.redirect('tasks');
       }
     })
     .get('editTask', '/tasks/:id/edit', checkLogin, async (ctx) => {
+      const { id } = ctx.params;
       try {
-        const { id } = ctx.params;
         const task = await Task.scope('Assotiations').findByPk(id);
         const statuses = await TaskStatus.findAll();
         const users = await User.findAll();
@@ -90,7 +87,8 @@ export default (router) => {
           f: buildFormObj(task), task, statuses, users,
         });
       } catch (e) {
-        ctx.render('tasks', { f: buildFormObj(e) });
+        ctx.flashMessage.warning = `Taswk with id ${id} is not found`;
+        ctx.redirect('tasks');
       }
     })
     .patch('updateTask', '/tasks/:id', checkLogin, async (ctx) => {
@@ -109,14 +107,23 @@ export default (router) => {
         ctx.flashMessage.notice = 'Task has been updated';
         ctx.redirect(router.url('tasks'));
       } catch (e) {
-        ctx.render('tasks/new', { f: buildFormObj(task, e) });
+        ctx.flashMessage.warning = 'Invalid fields';
+        const statuses = await TaskStatus.findAll();
+        const users = await User.findAll();
+        ctx.render('tasks/edit', {
+          f: buildFormObj(task, e), task, statuses, users,
+        });
       }
     })
     .delete('deleteTask', '/tasks/:id/delete', checkLogin, async (ctx) => {
       const { id } = ctx.params;
-      const task = await Task.findByPk(id);
-      await task.destroy();
-      ctx.session = {};
-      ctx.redirect(router.url('tasks'));
+      try {
+        const task = await Task.findByPk(id);
+        await task.destroy();
+        ctx.redirect(router.url('tasks'));
+      } catch (e) {
+        ctx.flashMessage.warning = `Task with id ${id} is not found`;
+        ctx.redirect(router.url('tasks'));
+      }
     });
 };

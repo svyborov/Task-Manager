@@ -8,7 +8,7 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true,
       validate: {
-        isEmail: true,
+        isEmail: {args: true, msg: "That doesn't look like an email address…"},
       },
     },
     passwordDigest: {
@@ -25,7 +25,7 @@ export default (sequelize, DataTypes) => {
         return value;
       },
       validate: {
-        len: [1, +Infinity],
+        len: {args: [1, +Infinity], msg: "Password must be at least 2 characters."},
       },
     },
   }, {

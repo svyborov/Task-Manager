@@ -8,8 +8,10 @@ export default (router) => {
     .get('statuses', '/statuses', checkLogin, async (ctx) => {
       try {
         const statuses = await TaskStatus.findAll();
-        ctx.render('statuses', { statuses });
+        const minStatusId = await TaskStatus.min('id');
+        ctx.render('statuses', { f: buildFormObj(statuses), statuses, minStatusId });
       } catch (e) {
+        console.log(e);
         ctx.render('statuses', { f: buildFormObj(e) });
       }
     })
@@ -37,7 +39,10 @@ export default (router) => {
         ctx.flashMessage.notice = 'Status has been updated';
         ctx.redirect(router.url('statuses'));
       } catch (e) {
-        ctx.render('statuses', { f: buildFormObj(status, e) });
+        ctx.flashMessage.warning = 'Invalid fields';
+        const statuses = await TaskStatus.findAll();
+        console.log(e);
+        ctx.render('statuses', { f: buildFormObj(status, e), statuses });
       }
     })
     .delete('deleteStatus', '/statuses/:id/delete', checkLogin, async (ctx) => {
@@ -45,9 +50,14 @@ export default (router) => {
       const status = await TaskStatus.findOne({ where: { id } });
       try {
         await status.destroy();
-        ctx.redirect(router.url('statuses'));
+        const statuses = await TaskStatus.findAll();
+        const minStatusId = await TaskStatus.min('id');
+        ctx.render('statuses', { f: buildFormObj(statuses), statuses, minStatusId });
       } catch (e) {
-        ctx.render('statuses', { f: buildFormObj(status, e) });
+        console.log(e);
+        ctx.flashMessage.warning = 'Unable to delete the status, it may be associated with the task';
+        const statuses = await TaskStatus.findAll();
+        ctx.render('statuses', { f: buildFormObj(status, e), statuses });
       }
     });
 };

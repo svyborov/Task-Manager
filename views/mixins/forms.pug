@@ -15,13 +15,15 @@ mixin input(f, property, id, options = { as: 'text' })
     label.sr-only(for= id)= property
     input(name=getInputName(f, property), id= id, placeholder= property class='form-control' type=options['as'] value=`${value}`)
     if f.errors[property]
-      .form-control-feedback= f.errors[property].map(({ message }) => message).join('. ')
+      .form-control-feedback.text-danger= f.errors[property].map(({ message }) => message).join('. ')
 
-mixin inputStatuses(object, property, id, options = { as: 'text' })
+mixin inputStatuses(f, object, property, id, options = { as: 'text' })
   - const value = object[property] === undefined ? '' : object[property]
   .form-group
     label.sr-only(for= id)= property
     input(name=property, id= id, class='form-control' type=options['as'] value=`${value}`)
+    if f.errors[property]
+      .form-control-feedback.text-danger= f.errors[property].map(({ message }) => message).join('. ')
 
 mixin inputTags(f, property, id, options = { as: 'text' })
   - const value = f.object[property] === undefined ? '' : f.object[property]
@@ -29,7 +31,7 @@ mixin inputTags(f, property, id, options = { as: 'text' })
     label.sr-only(for= id)= property
     input(name=property, id= id, class='form-control' type=options['as'] value=`${value}`)
     if f.errors[property]
-      .form-control-feedback= f.errors[property].map(({ message }) => message).join('. ')
+      .form-control-feedback.text-danger= f.errors[property].map(({ message }) => message).join('. ')
 
 
 mixin select(name, id, options, optionName)
@@ -53,7 +55,7 @@ mixin textarea(f, property, id)
     label.sr-only(for= id)= property
     textarea(name=getInputName(f, property), id= id, placeholder= property class='form-control')= value
     if f.errors[property]
-      .form-control-feedback= f.errors[property].map(({ message }) => message).join('. ')
+      .form-control-feedback.text-danger= f.errors[property].map(({ message }) => message).join('. ')
 
 mixin button(f, type = 'submit', value)
   .form-group

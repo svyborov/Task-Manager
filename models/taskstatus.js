@@ -4,6 +4,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true,
       allowNull: false,
+      validate: {
+        notEmpty: { args: true, msg: "Cannot be empty"},
+      },
     },
   }, {});
   TaskStatus.associate = (models) => {
