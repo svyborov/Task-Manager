@@ -6,11 +6,11 @@ block content
   .d-inline-flex  
     +formFor(f, { url: urlFor('tasks'), method: 'get' })
       .d-inline-flex
-        +inputTags(f, 'tags', 'tags', { as: 'text' })
-      .d-inline-flex
         .form-check
           input.form-check-input(type="checkbox" value="1" id="defaultCheck1" name="creatorId")
           label.form-check-label(for="defaultCheck1") My tasks
+      .d-inline-flex
+        +inputTags(f, 'tags', 'tags', { as: 'text' })
       .d-inline-flex
         +selectToFilter('assignedToId', 'assignedTo', users, 'fullName')
       .d-inline-flex

@@ -29,7 +29,7 @@ mixin inputTags(f, property, id, options = { as: 'text' })
   - const value = f.object[property] === undefined ? '' : f.object[property]
   .form-group(class=(f.errors[property] && 'has-danger'))
     label.sr-only(for= id)= property
-    input(name=property, id= id, class='form-control' type=options['as'] value=`${value}`)
+    input(name=property, id= id, class='form-control', placeholder='tags', type=options['as'] value=`${value}`)
     if f.errors[property]
       .form-control-feedback.text-danger= f.errors[property].map(({ message }) => message).join('. ')
 
