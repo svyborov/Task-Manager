@@ -13,6 +13,6 @@ block content
               +button(f, 'submit', 'Save')
             if(minStatusId !== status.id)
               .d-inline-flex
-                a.btn.btn-primary.btn-danger(href=urlFor('deleteStatus', { id: status.id }) data-method='delete' rel='nofollow') Delete
+                a.btn.btn-primary.btn-danger(href=urlFor('deleteStatus', { id: status.id }) data-method='delete' rel='nofollow' data-confirm="Are you sure?") Delete
         a.btn.btn-primary(href=urlFor('newStatus')) Create status
       

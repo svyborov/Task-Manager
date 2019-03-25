@@ -49,5 +49,5 @@ block content
           td
             a.btn.btn-primary(href=urlFor('editTask', { id: task.id })) Edit
           td
-            a.btn.btn-primary.btn-danger(href=urlFor('deleteTask', { id: task.id }) data-method='delete' rel='nofollow') Delete
+            a.btn.btn-primary.btn-danger(href=urlFor('deleteTask', { id: task.id }) data-method='delete' rel='nofollow' data-confirm="Are you sure?") Delete
           

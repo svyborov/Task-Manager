@@ -10,4 +10,4 @@ block content
           p= user.email
         if user.id === currentUserId
           a.btn.btn-primary(href=urlFor('editUser', { id: user.id })) Edit
-          a.btn.btn-primary.btn-danger(href=urlFor('deleteUser', { id: user.id }) data-method='delete' rel='nofollow') Delete account
+          a.btn.btn-primary.btn-danger(href=urlFor('deleteUser', { id: user.id }) data-method='delete' rel='nofollow' data-confirm="Are you sure?") Delete account
