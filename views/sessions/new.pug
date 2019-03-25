@@ -1,9 +1,9 @@
 extends /layouts/application.pug
 
 block content
-  .main.container
-    .row
-      .col-md-6.col-md-offset-3
+  .row.justify-content-center
+    .card
+      .card-body
         h1.h3.mb-3.font-weight-normal Log in
           +formFor(f, { url: urlFor('createSession'), method: 'post' })
             +input(f, 'email', 'inputEmail', { as: 'email' })

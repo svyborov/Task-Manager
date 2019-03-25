@@ -1,15 +1,22 @@
 extends /layouts/application.pug
 
 block content
-  a.btn.btn-primary(href=urlFor('newTask')) Create task
-  +formFor(f, { url: urlFor('tasks'), method: 'get' })
-    +inputTags(f, 'tags', 'tags', { as: 'text' })
-    .form-check
-      input.form-check-input(type="checkbox" value="1" id="defaultCheck1" name="creatorId")
-      label.form-check-label(for="defaultCheck1") My tasks
-    +selectToFilter('assignedToId', 'assignedTo', users, 'fullName')
-    +selectToFilter('taskStatusId', 'taskStatus', statuses, 'name')
-    +button(f, 'submit', 'Filter')
+  .d-inline-flex
+    a.btn.btn-primary(href=urlFor('newTask')) Create task
+  .d-inline-flex  
+    +formFor(f, { url: urlFor('tasks'), method: 'get' })
+      .d-inline-flex
+        +inputTags(f, 'tags', 'tags', { as: 'text' })
+      .d-inline-flex
+        .form-check
+          input.form-check-input(type="checkbox" value="1" id="defaultCheck1" name="creatorId")
+          label.form-check-label(for="defaultCheck1") My tasks
+      .d-inline-flex
+        +selectToFilter('assignedToId', 'assignedTo', users, 'fullName')
+      .d-inline-flex
+        +selectToFilter('taskStatusId', 'taskStatus', statuses, 'name')
+      .d-inline-flex
+        +button(f, 'submit', 'Filter')
   table.table
     thead
       tr
