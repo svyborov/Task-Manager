@@ -11,7 +11,6 @@ export default (router) => {
         const minStatusId = await TaskStatus.min('id');
         ctx.render('statuses', { f: buildFormObj(statuses), statuses, minStatusId });
       } catch (e) {
-        console.log(e);
         ctx.render('statuses', { f: buildFormObj(e) });
       }
     })
@@ -41,7 +40,6 @@ export default (router) => {
       } catch (e) {
         ctx.flashMessage.warning = 'Invalid fields';
         const statuses = await TaskStatus.findAll();
-        console.log(e);
         ctx.render('statuses', { f: buildFormObj(status, e), statuses });
       }
     })
@@ -54,7 +52,6 @@ export default (router) => {
         const minStatusId = await TaskStatus.min('id');
         ctx.render('statuses', { f: buildFormObj(statuses), statuses, minStatusId });
       } catch (e) {
-        console.log(e);
         ctx.flashMessage.warning = 'Unable to delete the status, it may be associated with the task';
         const statuses = await TaskStatus.findAll();
         ctx.render('statuses', { f: buildFormObj(status, e), statuses });

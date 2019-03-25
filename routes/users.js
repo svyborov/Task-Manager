@@ -27,7 +27,6 @@ export default (router) => {
         ctx.flashMessage.notice = 'User has been created';
         ctx.redirect(router.url('root'));
       } catch (e) {
-        console.log(e);
         ctx.flashMessage.warning = 'Invalid fields';
         ctx.render('users/new', { f: buildFormObj({ firstName, lastName }, e) });
       }
@@ -79,7 +78,7 @@ export default (router) => {
         ctx.redirect(router.url('root'));
       } catch (e) {
         ctx.flashMessage.warning = 'Invalid fields';
-        ctx.render('users/edit', { f: buildFormObj(user, e) });
+        ctx.render('users/edit', { f: buildFormObj(user, e), user });
       }
     });
 };
