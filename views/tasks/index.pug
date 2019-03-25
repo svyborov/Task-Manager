@@ -36,14 +36,14 @@ block content
           td= task.description
           td
             if(task.taskStatus)
-              task.taskStatus.name
+              =task.taskStatus.name
           td
             each tag in task.Tags
               a.badge.badge-primary(href="#")= tag.name
           td= task.creator.fullName
           td
             if(task.assignedTo)
-              task.assignedTo.fullName
+              =task.assignedTo.fullName
           td
             a.btn.btn-primary(href=urlFor('showTask', { id : task.id })) Open
           td

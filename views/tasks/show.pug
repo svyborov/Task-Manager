@@ -1,26 +1,29 @@
 extends /layouts/application.pug
 
 block content
-    h2= `Task #${task.id}`
-    .container
-      h3= task.name
-      p= `Added by ${task.creator.fullName}`
-      table
-        tbody
-          tr
-            th Status
-            td= task.taskStatus.name
-          tr
-            th Assigned to
-            td= task.assignedTo.fullName
-          tr
-            th Tags
-            td
-              each tag in task.Tags
-                a.badge.badge-primary(href="#")= tag.name
-      hr
-      p
-        strong Description
-      p= task.description
-      a.btn.btn-primary(href=urlFor('editTask', { id: task.id })) Edit
-      a.btn.btn-primary.btn-danger(href=urlFor('deleteTask', { id: task.id }) data-method='delete' rel='nofollow') Delete
+  .row.justify-content-center
+    .card
+      .card-body
+        h2= `Task #${task.id}`
+        .container
+          h3= task.name
+          p= `Added by ${task.creator.fullName}`
+          table
+            tbody
+              tr
+                th Status
+                td= task.taskStatus.name
+              tr
+                th Assigned to
+                td= task.assignedTo.fullName
+              tr
+                th Tags
+                td
+                  each tag in task.Tags
+                    a.badge.badge-primary(href="#")= tag.name
+          hr
+          p
+            strong Description
+          p= task.description
+          a.btn.btn-primary(href=urlFor('editTask', { id: task.id })) Edit
+          a.btn.btn-primary.btn-danger(href=urlFor('deleteTask', { id: task.id }) data-method='delete' rel='nofollow') Delete
