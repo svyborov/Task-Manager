@@ -1,14 +1,15 @@
 extends /layouts/application.pug
 
 block content
-  .row.justify-content-center
-    .card
-      .card-body
-        h1.h3.mb-3.font-weight-normal Create Account
-        +formFor(f, { url: urlFor('createUsers'), method: 'post' })
-          +input(f, 'firstName', 'inputFirstName', { as: 'text' })
-          +input(f, 'lastName', 'inputLastName', { as: 'text' })
-          +input(f, 'email', 'inputEmail', { as: 'email' })
-          +input(f, 'password', 'inputPassword', { as: 'password' })
-          br
-          +button(f, 'submit', 'Create New Account')
+  .row.justify-content-center.pb-5.mt-5.text-center
+    .col-12.col-sm-8.col-md-7.col-lg-4
+      .card.shadow.border-top.border-primary
+        .card-body
+          h1.h3.mb-4.mt-3 Create Account
+          +formFor(f, { url: urlFor('createUsers'), method: 'post' })
+            +input(f, 'firstName', 'inputFirstName', { as: 'text' })
+            +input(f, 'lastName', 'inputLastName', { as: 'text' })
+            +input(f, 'email', 'inputEmail', { as: 'email' })
+            +input(f, 'password', 'inputPassword', { as: 'password' })
+            br
+            +button(f, 'submit', 'Create New Account')

@@ -1,17 +1,18 @@
 extends /layouts/application.pug
 
 block content
-  table.table
-    thead
-      tr
-        th id
-        th Full Name
-        th Email
-        th Created At
-    tbody
-      each user in users
+  .table-responsive
+    table.table.table-striped
+      thead
         tr
-          td= user.id
-          td= user.fullName
-          td= user.email
-          td= user.createdAt
+          th id
+          th Full Name
+          th Email
+          th Created At
+      tbody
+        each user in users
+          tr
+            td= user.id
+            td= user.fullName
+            td= user.email
+            td= user.createdAt
