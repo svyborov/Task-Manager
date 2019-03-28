@@ -48,9 +48,7 @@ export default (router) => {
       const status = await TaskStatus.findOne({ where: { id } });
       try {
         await status.destroy();
-        const statuses = await TaskStatus.findAll();
-        const minStatusId = await TaskStatus.min('id');
-        ctx.render('statuses', { f: buildFormObj(statuses), statuses, minStatusId });
+        ctx.redirect(router.url('statuses'));
       } catch (e) {
         ctx.flashMessage.warning = 'Unable to delete the status, it may be associated with the task';
         const statuses = await TaskStatus.findAll();

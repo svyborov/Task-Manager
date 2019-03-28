@@ -70,7 +70,7 @@ export default (router) => {
         const task = await Task.scope('Assotiations').findByPk(id);
         ctx.render('tasks/show', { f: buildFormObj(task), task });
       } catch (e) {
-        ctx.flashMessage.warning = `Taswk with id ${id} is not found`;
+        ctx.flashMessage.warning = `Task with id ${id} is not found`;
         ctx.redirect('tasks');
       }
     })
@@ -87,7 +87,7 @@ export default (router) => {
           f: buildFormObj(task), task, statuses, users,
         });
       } catch (e) {
-        ctx.flashMessage.warning = `Taswk with id ${id} is not found`;
+        ctx.flashMessage.warning = `Task with id ${id} is not found`;
         ctx.redirect('tasks');
       }
     })
