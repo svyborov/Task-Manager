@@ -12,6 +12,8 @@ module.exports = {
         model: 'Tasks',
         key: 'id',
       },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
     },
     tagId: {
       type: Sequelize.INTEGER,
@@ -19,6 +21,8 @@ module.exports = {
         model: 'Tags',
         key: 'id',
       },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
     },
     createdAt: {
       allowNull: false,

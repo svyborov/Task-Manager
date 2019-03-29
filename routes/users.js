@@ -53,14 +53,14 @@ export default (router) => {
     })
     .delete('deleteUser', '/users/:id/delete', checkRights, async (ctx) => {
       const { id } = ctx.params;
+      const user = await User.findByPk(id);
       try {
-        const user = await User.findByPk(id);
         await user.destroy();
         ctx.session = {};
         ctx.redirect(router.url('root'));
       } catch (e) {
-        ctx.flashMessage.warning = `User with id ${id} is not found`;
-        ctx.redirect(router.url('root'));
+        ctx.flashMessage.warning = `User with id ${id} can not be deleted`;
+        ctx.render('users/show', { user });
       }
     })
     .patch('updateUser', '/users/:id', checkRights, async (ctx) => {

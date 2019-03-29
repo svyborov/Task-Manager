@@ -14,6 +14,8 @@ module.exports = {
         model: 'TaskStatuses',
         key: 'id',
       },
+      onUpdate: 'CASCADE',
+      onDelete: 'RESTRICT',
     },
     creatorId: {
       type: Sequelize.INTEGER,
@@ -21,6 +23,8 @@ module.exports = {
         model: 'Users',
         key: 'id',
       },
+      onUpdate: 'CASCADE',
+      onDelete: 'SET NULL',
     },
     assignedToId: {
       type: Sequelize.INTEGER,
@@ -28,6 +32,8 @@ module.exports = {
         model: 'Users',
         key: 'id',
       },
+      onUpdate: 'CASCADE',
+      onDelete: 'RESTRICT',
     },
     createdAt: {
       allowNull: false,
